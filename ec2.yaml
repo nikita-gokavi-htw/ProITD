@@ -1,16 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Resources:
-  HTWInstance:
-    Type: "AWS::EC2::Instance"
-    Properties:
-      ImageId: "ami-06106653b82b7fae1"  # Specify the AMI ID for your region
-      InstanceType: "t2.micro"            # Specify the instance type
+Description: CloudFormation template to create an EC2 instance with security group
 
+Resources:
   InstanceSecurityGroup:
     Type: "AWS::EC2::SecurityGroup"
     Properties:
-      GroupDescription: "Enable SSH access"
-      VpcId: "vpc-12345678"               # Replace with your VPC ID
+      GroupDescription: "Enable SSH and HTTP access"
       SecurityGroupIngress:
         - IpProtocol: "tcp"
           FromPort: 22
@@ -19,7 +14,16 @@ Resources:
         - IpProtocol: "tcp"
           FromPort: 80
           ToPort: 80
-          CidrIp: "0.0.0.0/0"    
+          CidrIp: "0.0.0.0/0"              # Allow HTTP from anywhere
+
+  HTWInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: "ami-00385a401487aefa4"   # Specify the AMI ID for your region
+      InstanceType: "t2.micro"             # Specify the instance type
+      SecurityGroupIds:
+        - !Ref nikita-sg-1       # Associate the security group with the instance
+
 
 Outputs:
   InstanceId:
