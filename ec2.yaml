@@ -21,8 +21,6 @@ Resources:
     Properties:
       ImageId: "ami-00385a401487aefa4"   # Specify the AMI ID for your region
       InstanceType: "t2.micro"             # Specify the instance type
-      SecurityGroupIds:
-        - !Ref nikita-sg-1       # Associate the security group with the instance
 
 
 Outputs:
