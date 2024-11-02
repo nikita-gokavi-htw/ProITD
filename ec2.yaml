@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  HTWInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: "ami-06106653b82b7fae1"  # Specify the AMI ID for your region
+      InstanceType: "t2.micro"            # Specify the instance type
+
+  InstanceSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Enable SSH access"
+      VpcId: "vpc-12345678"               # Replace with your VPC ID
+      SecurityGroupIngress:
+        - IpProtocol: "tcp"
+          FromPort: 22
+          ToPort: 22
+          CidrIp: "0.0.0.0/0"             # Allow SSH from anywhere (modify as needed)
+        - IpProtocol: "tcp"
+          FromPort: 80
+          ToPort: 80
+          CidrIp: "0.0.0.0/0"    
+
+Outputs:
+  InstanceId:
+    Description: "Instance ID of the newly created EC2 instance"
+    Value: !Ref HTWInstance
+
+  PublicIP:
+    Description: "Public IP address of the EC2 instance"
+    Value: !GetAtt HTWInstance.PublicIp
